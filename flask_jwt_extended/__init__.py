@@ -8,7 +8,8 @@ from .utils import (
 )
 from .view_decorators import (
     fresh_jwt_required, jwt_optional, jwt_refresh_token_required, jwt_required,
-    verify_fresh_jwt_in_request, verify_jwt_in_request,
+    async_fresh_jwt_required, async_jwt_optional, async_jwt_refresh_token_required,
+    async_jwt_required, verify_fresh_jwt_in_request, verify_jwt_in_request,
     verify_jwt_in_request_optional, verify_jwt_refresh_token_in_request
 )
 
