@@ -214,9 +214,9 @@ def has_token_in_blacklist_callback():
     return jwt_manager._token_in_blacklist_callback is not None
 
 
-def token_in_blacklist(*args, **kwargs):
+async def token_in_blacklist(*args, **kwargs):
     jwt_manager = _get_jwt_manager()
-    return jwt_manager._token_in_blacklist_callback(*args, **kwargs)
+    return await jwt_manager._token_in_blacklist_callback(*args, **kwargs)
 
 
 def verify_token_type(decoded_token, expected_type):
@@ -224,7 +224,7 @@ def verify_token_type(decoded_token, expected_type):
         raise WrongTokenError('Only {} tokens are allowed'.format(expected_type))
 
 
-def verify_token_not_blacklisted(decoded_token, request_type):
+async def verify_token_not_blacklisted(decoded_token, request_type):
     if not config.blacklist_enabled:
         return
     if not has_token_in_blacklist_callback():
@@ -232,10 +232,10 @@ def verify_token_not_blacklisted(decoded_token, request_type):
                            "the '@token_in_blacklist_loader' if "
                            "JWT_BLACKLIST_ENABLED is True")
     if config.blacklist_access_tokens and request_type == 'access':
-        if token_in_blacklist(decoded_token):
+        if await token_in_blacklist(decoded_token):
             raise RevokedTokenError('Token has been revoked')
     if config.blacklist_refresh_tokens and request_type == 'refresh':
-        if token_in_blacklist(decoded_token):
+        if await token_in_blacklist(decoded_token):
             raise RevokedTokenError('Token has been revoked')
 
 

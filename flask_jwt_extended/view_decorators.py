@@ -264,7 +264,7 @@ def _decode_jwt_from_json(request_type):
     return encoded_token, None
 
 
-def _decode_jwt_from_request(request_type):
+async def _decode_jwt_from_request(request_type):
     # All the places we can get a JWT from in this request
     get_encoded_token_functions = []
 
@@ -314,5 +314,5 @@ def _decode_jwt_from_request(request_type):
             raise NoAuthorizationError(errors[0])
 
     verify_token_type(decoded_token, expected_type=request_type)
-    verify_token_not_blacklisted(decoded_token, request_type)
+    await verify_token_not_blacklisted(decoded_token, request_type)
     return decoded_token, jwt_header
