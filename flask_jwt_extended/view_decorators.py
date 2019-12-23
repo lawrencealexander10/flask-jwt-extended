@@ -80,7 +80,7 @@ async def verify_fresh_jwt_in_request():
         _load_user(jwt_data[config.identity_claim_key])
 
 
-async def await ():
+async def verify_jwt_refresh_token_in_request ():
     """
     Ensure that the requester has a valid refresh token. Raises an appropiate
     exception if there is no token or the token is invalid.
